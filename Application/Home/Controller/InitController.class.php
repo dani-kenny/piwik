@@ -1,0 +1,48 @@
+<?php
+namespace Home\Controller;
+use Think\Controller;
+class InitController extends Controller{
+	//初始化游戏接口
+	public function  Init()
+	{
+		//header('Content-type:text/json');
+		$uid=$_GET['uid'];
+		//假设服务器有1台，就对1取mod
+		$i=$uid%1;
+		switch($i){
+		case 0:
+		
+			$url="127.0.0.1";
+		    break;
+		case 1:
+			$url="";
+			break;
+		case 2:
+			$url="";
+			break;
+		case 3:
+			$url="";
+			break;
+		
+		}
+		$date=time();
+		$e=$this->GateErro(10000);
+		//dump($e[0]['ErroID']);
+		$arr=array('error'=>$e[0]['ErroID'],'data'=>array('url'=>$url),'TS'=>$date,'update'=>array());
+		 $b=ConvertController::array_to_object($arr);
+		
+		$this->ajaxReturn($b);
+		
+		
+	
+	}
+	//错误代码
+	private function GateErro($erro)
+	{
+		
+		$use=M('erro');
+		$map['ErroID']=$erro;
+		return $use->where($map)->select();
+		
+	}
+}
