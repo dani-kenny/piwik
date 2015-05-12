@@ -6,13 +6,23 @@ class InitController extends TSsanguoController{
 	public function  Init($usrid)
 	{
 		//header('Content-type:text/json');
+		$date=time();
+		if($usrid==null)
+		{
+			$e=InitController::GateErro(10001);
+			$erro=$e[0]['ErroID'];
+			$arr=array('error'=>intval($erro),'data'=>array(),'TS'=>$date,'updatedata'=>array());
+		}
+		else 
+		{
 		$uid=$usrid;
 		//假设服务器有1台，就对1取mod
 		$i=$uid%1;
 		switch($i){
 		case 0:
 		
-			$url="127.0.0.1";
+			$url="http://42.121.4.140/TSsanguo/";
+		
 		    break;
 		case 1:
 			$url="";
@@ -25,13 +35,16 @@ class InitController extends TSsanguoController{
 			break;
 		
 		}
-		$date=time();
-		$e=InitController::GateErro(10001);
-		//dump($e[0]['ErroID']);
-		$arr=array('error'=>$e[0]['ErroID'],'data'=>array('url'=>$url),'TS'=>$date,'update'=>array());
+		$erro=0;
+		$arr=array('error'=>$erro,'data'=>array('url'=>$url),'TS'=>$date,'updatedata'=>array());
+		}
+		
+		
+		
+		
 		 $b=ConvertController::array_to_object($arr);
 		
-		$this->ajaxReturn($b);
+	      echo stripslashes(json_encode($b));
 		
 		
 	
