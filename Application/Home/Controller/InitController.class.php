@@ -1,12 +1,12 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class InitController extends Controller{
+class InitController extends TSsanguoController{
 	//初始化游戏接口
-	public function  Init()
+	public function  Init($usrid)
 	{
 		//header('Content-type:text/json');
-		$uid=$_GET['uid'];
+		$uid=$usrid;
 		//假设服务器有1台，就对1取mod
 		$i=$uid%1;
 		switch($i){
@@ -26,7 +26,7 @@ class InitController extends Controller{
 		
 		}
 		$date=time();
-		$e=$this->GateErro(10000);
+		$e=InitController::GateErro(10001);
 		//dump($e[0]['ErroID']);
 		$arr=array('error'=>$e[0]['ErroID'],'data'=>array('url'=>$url),'TS'=>$date,'update'=>array());
 		 $b=ConvertController::array_to_object($arr);
