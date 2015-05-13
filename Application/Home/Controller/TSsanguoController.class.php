@@ -14,8 +14,9 @@ class TSsanguoController extends Controller{
 			return $para=json_decode($_POST['para'],true);
 		}
 	}
-// 	function test()
-// 	{
+	function test()
+	{
+		phpinfo();
 // 		$table=M('userinfo');
 // 		$data['ClientId'] = 11111;
 // 		$data['FromPlatformId'] = 111;
@@ -23,7 +24,7 @@ class TSsanguoController extends Controller{
 // 		$data['UserLoginTS'] = time ();
 
 // 		$table->add ($data);
-// 	}
+	}
 	function Init()
 	{
 		//http://42.121.4.140/TSsanguo/init?para={"channel":"base","debug":1,"os":"ios","userid":"1431347899928","version":"1.0.0"}&ts=1431349709&hash=ff0e28c93426b96dea1a348020fd5dee
