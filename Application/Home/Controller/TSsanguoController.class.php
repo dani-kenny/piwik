@@ -2,10 +2,22 @@
 namespace Home\Controller;
 use Think\Controller;
 class TSsanguoController extends Controller{
+	function getpara()
+	{   
+	    
+		if(json_decode($_POST['para'],true)==null)
+		{
+			return $para=json_decode($_GET['para'],true);
+		}
+		else 
+		{
+			return $para=json_decode($_POST['para'],true);
+		}
+	}
 	function Init()
 	{
 		//http://42.121.4.140/TSsanguo/init?para={"channel":"base","debug":1,"os":"ios","userid":"1431347899928","version":"1.0.0"}&ts=1431349709&hash=ff0e28c93426b96dea1a348020fd5dee
-		$para=json_decode($_POST['para'],true);
+		$para=$this->getpara();
 		//dump(json_decode($para,true));
 			$test=InitController::Init($para['userid']);
 		
@@ -13,7 +25,7 @@ class TSsanguoController extends Controller{
 	}
 	function getUserData()
 	{
-		$para=json_decode($_GET['para'],true);
+		$para=$this->getpara();
 		$test=GetUserInfoController::GetUserData($para['userid']);
 	}
 }
