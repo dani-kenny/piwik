@@ -50,7 +50,7 @@ class InitController extends TSsanguoController{
 	
 	}
 	//错误代码
-	private function GateErro($erro)
+	public function GateErro($erro)
 	{
 		
 		$use=M('erro');
