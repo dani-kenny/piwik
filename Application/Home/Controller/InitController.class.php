@@ -11,7 +11,7 @@ class InitController extends TSsanguoController{
 		{
 			$e=InitController::GateErro(10001);
 			$erro=$e[0]['ErroID'];
-			$arr=array('error'=>intval($erro),'data'=>array(),'TS'=>$date,'updatedata'=>array());
+			$arr=array('error'=>intval($erro),'data'=>array(),'ts'=>$date,'updatedata'=>array());
 		}
 		else 
 		{
@@ -36,7 +36,7 @@ class InitController extends TSsanguoController{
 		
 		}
 		$erro=0;
-		$arr=array('error'=>$erro,'data'=>array('url'=>$url),'TS'=>$date,'updatedata'=>array());
+		$arr=array('error'=>$erro,'data'=>array('url'=>$url),'ts'=>$date,'updateData'=>array());
 		}
 		
 		

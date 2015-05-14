@@ -17,8 +17,8 @@ class GetUserInfoController extends Controller {
 			$arr = array (
 					'error' => intval ( $erro ),
 					'data' => array (),
-					'TS' => time (),
-					'updatedata' => array () 
+					'ts' => time (),
+					'updateData' => array () 
 			);
 			$b = ConvertController::array_to_object ( $arr );
 			
@@ -41,7 +41,7 @@ class GetUserInfoController extends Controller {
 		GetUserInfoController::isUser ( $uid, $plat );
 		$user = S ( "user_" . $uid . $plat );
 		$arr = array (
-				'erro' => 10001,
+				'erro' => 0,
 				'data' => $user 
 		);
 		$b = ConvertController::array_to_object ( $arr );
@@ -66,11 +66,18 @@ class GetUserInfoController extends Controller {
 		$rel = $table->where ( $map )->select ();
 		if (empty($rel)) {
 			//$table = M ( 'userinfo' );
+			//写入人物基本信息表‘ts_userinfo’
 			$data['ClientId'] = $userid;
 			$data['FromPlatformId'] = $plat;
 			$data['UserRegTS'] = time ();
 			$data['UserLoginTS']  = time ();			
-			$table->add ($data);
+			$newid=$table->add ($data);
+			
+			
+			//初始化英雄部分
+			GetUserInfoController::getHeroMessage($newid);
+			//初始化装备部分
+			
 			// 并写入cache
 			GetUserInfoController::WriteMem ( $userid, $plat );
 		} else {
@@ -83,32 +90,32 @@ class GetUserInfoController extends Controller {
 		$map ['ClientId'] = $userid;
 		$map ['FromPlatformId'] = $plat;
 		$rel = $table->where ( $map )->select ();
-		$unit ['ID'] = $rel [0] ['Uid'];
-		$unit ['ClientId'] = $userid;
-		$unit ['FromPlatformId'] = $plat;
+		$unit ['id'] = $rel [0] ['Uid'];
+		$unit ['clientId'] = $userid;
+		$unit ['fromPlatFormId'] = $plat;
 		$unit ['ts'] = $rel [0] ['UserRegTS'];
 		// 以下先写死
-		$unit ['name'] = 'qinxiaosao';
+		$unit ['name'] = "user".$rel [0] ['Uid'];
 		$unit ['Money'] = 1000;
 		$unit ['Cash'] = 10;
 		// 物品
 		$unit ['items'] = GetUserInfoController::ItemMessage($userid);
 		// 阵型
-		$unit ['Formation'] = array (
-				"PrototypeID" => 1,
+		$unit ['formation'] = array (
+				"prototypeID" => 1,
 				"pos1" => 3000001 
 		);
 		// 关卡
 		$unit ['levels'] = GetUserInfoController::GetMission ( $userid );
-		$unit ['updatedata'] = array ();
+		
 		// 人物所有信息写入cache
 		S ( "user_" . $userid . $plat, $unit );
 	}
 	// 获取装备信息
 	private function ItemMessage($uid) {
-		$a=array("id"=>1000001,"prototypeID"=>1001,"count"=>1,"CreateTS"=>time());
-		$b=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000);
-		$c=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000,"eqID1"=>2000001,"eqID2"=>-1);
+		//$a=array("id"=>1000001,"prototypeID"=>1001,"count"=>1,"CreateTS"=>time());
+		//$b=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000);
+		//$c=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000,"eqID1"=>2000001,"eqID2"=>-1);
 		return array($a,$b,$c);
 	}
 	// 获取人物过关卡信息
@@ -124,4 +131,27 @@ class GetUserInfoController extends Controller {
 				) 
 		);
 	}
+	//获取初始化英雄
+	private function getHeroMessage($uid)
+	{
+	   //写入人物物品表‘ts_useritem’
+		$table=M('ts_useritem');
+		$item['Uid']=$uid;
+		$item['ItemType']=1;
+		$item['ItemCount']=2;
+		//人物原型id
+		$item['ItemPrototypeID']=1;
+		//查找英雄表
+		$hero=M('hero');
+		$map['id']=$item['ItemPrototypeID'];
+		$rel=$hero->where ( $map )->select ();
+		//物理攻击力
+		$item['HummanAttack']=$rel[0]['DC'];
+		//防御力
+		$item['HummanDef']=$rel[0]['AC'];
+		//..其中还有一些字段没有假如进去
+		$table->add($item);
+		
+	}
+	
 }
