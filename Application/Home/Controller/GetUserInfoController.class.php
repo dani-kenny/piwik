@@ -73,7 +73,7 @@ class GetUserInfoController extends Controller {
 			$data['UserLoginTS']  = time ();			
 			$newid=$table->add ($data);
 			
-			
+			//dump($newid);
 			//初始化英雄部分
 			GetUserInfoController::getHeroMessage($newid);
 			//初始化装备部分
@@ -92,14 +92,15 @@ class GetUserInfoController extends Controller {
 		$rel = $table->where ( $map )->select ();
 		$unit ['id'] = $rel [0] ['Uid'];
 		$unit ['clientId'] = $userid;
-		$unit ['fromPlatFormId'] = $plat;
+		//$unit ['fromPlatFormId'] = $plat;
 		$unit ['ts'] = $rel [0] ['UserRegTS'];
+		$unit['updateData']=array();
 		// 以下先写死
 		$unit ['name'] = "user".$rel [0] ['Uid'];
 		$unit ['Money'] = 1000;
 		$unit ['Cash'] = 10;
 		// 物品
-		$unit ['items'] = GetUserInfoController::ItemMessage($userid);
+		$unit ['items'] = GetUserInfoController::ItemMessage($rel [0] ['Uid']);
 		// 阵型
 		$unit ['formation'] = array (
 			//	"prototypeID" => 1,
@@ -113,10 +114,21 @@ class GetUserInfoController extends Controller {
 	}
 	// 获取装备信息
 	private function ItemMessage($uid) {
+		$table=M('useritem');
+		$map['Uid']=$uid;
+		$rel=$table->where($map)->select();
+		if($rel[0]['ItemType']==1&&$rel[0]['ItemCount']>=2)
+		{
+			for($i=1;$i<=$rel[0]['ItemCount'];$i++)
+			{
+				$tmp[$i]=array('id'=>$rel[0]['ItemID'],'prototypeID'=>$rel[0]['ItemPrototypeID'],'count'=>1,'createTS'=>$rel[0]['CreateTS'],'attack'=>$rel[0]['HummanAttack']);
+			}
+		}
 		//$a=array("id"=>1000001,"prototypeID"=>1001,"count"=>1,"CreateTS"=>time());
 		//$b=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000);
 		//$c=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000,"eqID1"=>2000001,"eqID2"=>-1);
-		return array($a,$b,$c);
+		
+		return $tmp;
 	}
 	// 获取人物过关卡信息
 	private function GetMission($uid) {
@@ -134,16 +146,18 @@ class GetUserInfoController extends Controller {
 	//获取初始化英雄
 	private function getHeroMessage($uid)
 	{
+		
 	   //写入人物物品表‘ts_useritem’
-		$table=M('ts_useritem');
+		$table=M('useritem');
 		$item['Uid']=$uid;
 		$item['ItemType']=1;
 		$item['ItemCount']=2;
+		$item['CreateTS']=time();
 		//人物原型id
 		$item['ItemPrototypeID']=1;
 		//查找英雄表
 		$hero=M('hero');
-		$map['id']=$item['ItemPrototypeID'];
+		$map['Index']=$item['ItemPrototypeID'];
 		$rel=$hero->where ( $map )->select ();
 		//物理攻击力
 		$item['HummanAttack']=$rel[0]['DC'];
