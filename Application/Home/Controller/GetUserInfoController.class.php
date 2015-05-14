@@ -102,8 +102,8 @@ class GetUserInfoController extends Controller {
 		$unit ['items'] = GetUserInfoController::ItemMessage($userid);
 		// 阵型
 		$unit ['formation'] = array (
-				"prototypeID" => 1,
-				"pos1" => 3000001 
+			//	"prototypeID" => 1,
+			//	"pos1" => 3000001 
 		);
 		// 关卡
 		$unit ['levels'] = GetUserInfoController::GetMission ( $userid );
@@ -122,12 +122,12 @@ class GetUserInfoController extends Controller {
 	private function GetMission($uid) {
 		return array (
 				array (
-						"id" => 1001,
-						"star" => 1 
+				//		"id" => 1001,
+				//		"star" => 1 
 				),
 				array (
-						"id" => 1002,
-						"star" => 2 
+				//		"id" => 1002,
+				//		"star" => 2 
 				) 
 		);
 	}
