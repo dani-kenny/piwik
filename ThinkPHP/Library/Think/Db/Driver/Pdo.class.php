@@ -44,9 +44,14 @@ class Pdo extends Db{
             if(empty($config))  $config =   $this->config;
             if($this->pconnect) {
                 $config['params'][\PDO::ATTR_PERSISTENT] = true;
+                
+                //
+                //$config['params'][\PDO::ATTR_EMULATE_PREPARES]=false;
+               // $config['params'][\PDO::ATTR_STRINGIFY_FETCHES]=false;
             }
             if(version_compare(PHP_VERSION,'5.3.6','<=')){ //禁用模拟预处理语句
                 $config['params'][\PDO::ATTR_EMULATE_PREPARES]  =   false;
+               // $config['params'][\PDO::ATTR_STRINGIFY_FETCHES]=false;
             }
             //$config['params'][PDO::ATTR_CASE] = C("DB_CASE_LOWER")?PDO::CASE_LOWER:PDO::CASE_UPPER;
             try{

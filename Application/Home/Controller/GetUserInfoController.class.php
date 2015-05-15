@@ -12,40 +12,50 @@ class GetUserInfoController extends Controller {
 	public function GetUserData($userid, $channel) {
 		$uid = $userid;
 		if ($uid == null) {
-			$e = InitController::GateErro ( 10001 );
-			$erro = $e [0] ['ErroID'];
-			$arr = array (
-					'error' => intval ( $erro ),
-					'data' => array (),
-					'ts' => time (),
-					'updateData' => array () 
-			);
-			$b = ConvertController::array_to_object ( $arr );
+// 			$e = InitController::GateErro ( 10001 );
+// 			$erro = $e [0] ['ErroID'];
+// 			$arr = array (
+// 					'error' => intval ( $erro ),
+// 					'data' => array (),
+// 					'ts' => time (),
+// 					'updateData' => array () 
+// 			);
+// 			$b = ConvertController::array_to_object ( $arr );
 			
-			$this->ajaxReturn ( $b );
-			break;
+// 			$this->ajaxReturn ( $b );
+// 			break;
+			$tmp=CommonController::returnErro(1);
+			$data['data']=array();
 		}
-		switch ($channel) {
-			case "base" :
-				$plat = 1;
-				break;
-			case "" :
-				$plat = 2;
-				break;
-			case "" :
-				$plat = 3;
-				break;
+		else{
+			$tmp=CommonController::returnErro(0);
+			switch ($channel) {
+				case "base" :
+					$plat = 1;
+					break;
+				case "" :
+					$plat = 2;
+					break;
+				case "" :
+					$plat = 3;
+					break;
+			}
+			GetUserInfoController::isUser ( $uid, $plat );
+			$user = S ( "user_" . $uid . $plat );
+			$data['data']=$user;
 		}
 		
+		
 		// 判断缓存中是否存在这个键值的缓存，不存在创建一个新用户，并写入数据库
-		GetUserInfoController::isUser ( $uid, $plat );
-		$user = S ( "user_" . $uid . $plat );
-		$arr = array (
-				'erro' => 0,
-				'data' => $user 
-		);
+		
+// 		$arr = array (
+// 				'data' => $user 
+// 		);
+		
+        $arr=array_merge($tmp,$data);
 		$b = ConvertController::array_to_object ( $arr );
 		$this->ajaxReturn ( $b );
+		echo stripslashes ( json_encode ( $b ,JSON_NUMERIC_CHECK) );
 	}
 	// 判断是否存在此用户
 	private function IsUser($userid, $plat) {
