@@ -54,7 +54,7 @@ class GetUserInfoController extends Controller {
 		
         $arr=array_merge($tmp,$data);
 		$b = ConvertController::array_to_object ( $arr );
-		$this->ajaxReturn ( $b );
+		//$this->ajaxReturn ( $b );
 		echo stripslashes ( json_encode ( $b ,JSON_NUMERIC_CHECK) );
 	}
 	// 判断是否存在此用户
