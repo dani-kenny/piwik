@@ -103,8 +103,8 @@ class GetUserInfoController extends Controller {
 		$unit ['id'] = $rel [0] ['Uid'];
 		$unit ['clientId'] = $userid;
 		//$unit ['fromPlatFormId'] = $plat;
-		$unit ['ts'] = $rel [0] ['UserRegTS'];
-		$unit['updateData']=array();
+		//$unit ['ts'] = $rel [0] ['UserRegTS'];
+		//$unit['updateData']=array();
 		// 以下先写死
 		$unit ['name'] = "user".$rel [0] ['Uid'];
 		$unit ['Money'] = 1000;
