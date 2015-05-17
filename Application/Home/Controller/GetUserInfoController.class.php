@@ -12,18 +12,6 @@ class GetUserInfoController extends Controller {
 	public function GetUserData($userid, $channel) {
 		$uid = $userid;
 		if ($uid == null) {
-// 			$e = InitController::GateErro ( 10001 );
-// 			$erro = $e [0] ['ErroID'];
-// 			$arr = array (
-// 					'error' => intval ( $erro ),
-// 					'data' => array (),
-// 					'ts' => time (),
-// 					'updateData' => array () 
-// 			);
-// 			$b = ConvertController::array_to_object ( $arr );
-			
-// 			$this->ajaxReturn ( $b );
-// 			break;
 			$tmp=CommonController::returnErro(1);
 			$data['data']=array();
 		}
@@ -46,16 +34,11 @@ class GetUserInfoController extends Controller {
 		}
 		
 		
-		// 判断缓存中是否存在这个键值的缓存，不存在创建一个新用户，并写入数据库
-		
-// 		$arr = array (
-// 				'data' => $user 
-// 		);
 		
         $arr=array_merge($tmp,$data);
-		$b = ConvertController::array_to_object ( $arr );
+	//	$b = ConvertController::array_to_object ( $arr );
 		//$this->ajaxReturn ( $b );
-		echo stripslashes ( json_encode ( $b ,JSON_NUMERIC_CHECK) );
+		echo stripslashes ( json_encode ( $arr ,JSON_NUMERIC_CHECK) );
 	}
 	// 判断是否存在此用户
 	private function IsUser($userid, $plat) {
@@ -107,17 +90,14 @@ class GetUserInfoController extends Controller {
 		//$unit['updateData']=array();
 		// 以下先写死
 		$unit ['name'] = "user".$rel [0] ['Uid'];
-		$unit ['Money'] = 1000;
-		$unit ['Cash'] = 10;
+		$unit ['coins'] = 1000;
+		$unit ['cash'] = 10;
 		// 物品
 		$unit ['items'] = GetUserInfoController::ItemMessage($rel [0] ['Uid']);
 		// 阵型
-		$unit ['formation'] = array (
-			//	"prototypeID" => 1,
-			//	"pos1" => 3000001 
-		);
+		$unit ['formation'] =GetUserInfoController::GetFormation($rel [0] ['Uid']);
 		// 关卡
-		$unit ['levels'] = GetUserInfoController::GetMission ( $userid );
+		$unit ['levels'] = array();
 		
 		// 人物所有信息写入cache
 		S ( "user_" . $userid . $plat, $unit );
@@ -126,55 +106,92 @@ class GetUserInfoController extends Controller {
 	private function ItemMessage($uid) {
 		$table=M('useritem');
 		$map['Uid']=$uid;
-		$rel=$table->where($map)->select();
-		if($rel[0]['ItemType']==1&&$rel[0]['ItemCount']>=2)
-		{
-			for($i=1;$i<=$rel[0]['ItemCount'];$i++)
-			{
-				$tmp[$i]=array('id'=>$rel[0]['ItemID'],'prototypeID'=>$rel[0]['ItemPrototypeID'],'count'=>1,'createTS'=>$rel[0]['CreateTS'],'attack'=>$rel[0]['HummanAttack']);
-			}
-		}
-		//$a=array("id"=>1000001,"prototypeID"=>1001,"count"=>1,"CreateTS"=>time());
-		//$b=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000);
-		//$c=array("id"=>2000001,"prototypeID"=>3001,"count"=>1,"CreateTS"=>time(),"attack"=>1000,"eqID1"=>2000001,"eqID2"=>-1);
 		
+		$rel=$table->where($map)->select();
+	
+		
+			for($i=0;$i<count($rel);$i++)
+			{
+				
+				if($rel[$i]['ItemType']==1)
+		     {
+		     	
+				$tmp[]=array('id'=>$rel[$i]['ItemID'],'prototypeID'=>$rel[$i]['ItemPrototypeID'],'type'=>$rel[$i]['ItemType'],'count'=>1,'createTS'=>$rel[$i]['CreateTS'],'attack'=>$rel[$i]['HummanAttack']);
+		        //$b=array_push($b,$tmp);	
+		     }
+		}
+	
 		return $tmp;
 	}
 	// 获取人物过关卡信息
 	private function GetMission($uid) {
-		return array (
-				array (
-				//		"id" => 1001,
-				//		"star" => 1 
-				),
-				array (
-				//		"id" => 1002,
-				//		"star" => 2 
-				) 
+		return object(
+	
 		);
+	}
+	//获取英雄阵型信息
+	private function GetFormation($uid)
+	{
+		$table=M('useritem');
+		$map['Uid']=$uid;
+		
+		for($i=0;$i<=5;$i++)
+		{
+			$a=$i+1;
+           $map['IsFormation']=$a;
+           $rel=$table->where($map)->select();
+         
+           
+           if($rel==null)
+           {
+           	$formation['pos'.$a]=0;
+           }
+           else 
+           {
+           	$formation['prototypeID']=$rel[0]['FormationID'];
+           	$formation['pos'.$a]=$rel[0]['ItemID'];
+           }
+           
+			
+		}
+		return $formation;
+		
 	}
 	//获取初始化英雄
 	private function getHeroMessage($uid)
 	{
-		
-	   //写入人物物品表‘ts_useritem’
-		$table=M('useritem');
-		$item['Uid']=$uid;
-		$item['ItemType']=1;
-		$item['ItemCount']=2;
-		$item['CreateTS']=time();
-		//人物原型id
-		$item['ItemPrototypeID']=1;
-		//查找英雄表
-		$hero=M('hero');
-		$map['Index']=$item['ItemPrototypeID'];
-		$rel=$hero->where ( $map )->select ();
-		//物理攻击力
-		$item['HummanAttack']=$rel[0]['DC'];
-		//防御力
-		$item['HummanDef']=$rel[0]['AC'];
-		//..其中还有一些字段没有假如进去
-		$table->add($item);
+		//读取初始化物品配置文件
+		$file=dirname(dirname(__FILE__)).'/Common/useritem.txt';
+		$str= file_get_contents($file);
+		$line = explode(";",$str);
+		for($i=0;$i<count($line);$i++)
+		{
+			$e=explode(",",$line[$i]);
+			//写入物品表‘ts_useritem’
+			$table=M('useritem');
+			$item['Uid']=$uid;
+			$item['ItemPrototypeID']=$e[0];
+			if($e[1]==1)
+			{
+				$item['ItemType']=$e[1];
+				$item['IsFormation']=$e[3];
+				$item['FormationID']=$e[4];
+				$hero=M('hero');
+				$map['Index']=$item['ItemPrototypeID'];
+				$rel=$hero->where ( $map )->select ();
+				//物理攻击力
+				$item['HummanAttack']=$rel[0]['DC'];
+				//防御力
+				$item['HummanDef']=$rel[0]['AC'];
+				//..其中还有一些字段没有假如进去
+			}
+			
+			$item['ItemCount']=$e[2];
+			$item['CreateTS']=time();
+			
+			$table->add($item);
+		}
+	  
 		
 	}
 	

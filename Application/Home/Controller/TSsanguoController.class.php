@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+use Home\Common;
 class TSsanguoController extends Controller{
 	function getpara()
 	{   
@@ -15,12 +16,23 @@ class TSsanguoController extends Controller{
 		}
 	}
 	function test()
-	{
+	{   echo dirname(dirname(__FILE__)); 
+		$file=dirname(dirname(__FILE__)).'/Common/useritem.txt';
+		$str= file_get_contents($file);
+		echo $str;
+		
+		$keywords = explode(";",$str);
+		$e=explode(",",$keywords[0]);
+ 		$b=preg_split('/\s+/',$keywords);
+// 		$c=explode("   ",$keywords[0]);
+		dump($keywords);
+		dump($b);
+		dump($e);
 		//phpinfo();
-		$table=M('userinfo');
-		$map['Uid']=10000;
-		$rel=$table->where($map)->select();
-		dump($rel);
+// 		$table=M('userinfo');
+// 		$map['Uid']=10000;
+// 		$rel=$table->where($map)->select();
+// 		dump($rel);
 // 		$table=M('userinfo');
 // 		$data['ClientId'] = 11111;
 // 		$data['FromPlatformId'] = 111;
@@ -34,15 +46,23 @@ class TSsanguoController extends Controller{
 		//http://127.0.0.1:1100/TSsanguo/init?para={"channel":"base","debug":1,"os":"ios","userid":"1431347899928","version":"1.0.0"}&ts=1431349709&hash=ff0e28c93426b96dea1a348020fd5dee
 		$para=$this->getpara();
 		//dump(json_decode($para,true));
-			$test=InitController::Init($para['userid']);
+			$test=InitController::Init($para['userID']);
 		
 		
 	}
 	function getUserData()
 	{
 		$para=$this->getpara();
-		//dump($para);
-		$test=GetUserInfoController::GetUserData($para['userid'],$para['channel']);
+		$test=GetUserInfoController::GetUserData($para['userID'],$para['channel']);
+	}
+	function onlineReport()
+	{   $data['data']=array();
+		$para=$this->getpara();
+		$logout=CommonController::logoutTime($para['userID']);
+		$tmp=CommonController::returnErro(0);
+		$arr=array_merge($tmp,$data);
+		$b = ConvertController::array_to_object ( $arr );
+		echo  json_encode ( $b ,JSON_NUMERIC_CHECK) ;
 	}
 
 }

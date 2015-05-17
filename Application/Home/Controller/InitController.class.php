@@ -6,17 +6,17 @@ use Think\Controller;
 
 class InitController extends TSsanguoController {
 	// 初始化游戏接口
-	public function Init($usrid) {
+	public function Init($usrID) {
 		// header('Content-type:text/json');
 		// $date=time();
-		if ($usrid == null) {
+		if ($usrID == null) {
 			// $e=InitController::GateErro(10001);
 			// $erro=$e[0]['ErroID'];
 			// $arr=array('error'=>intval($erro),'data'=>array(),'ts'=>$date,'updatedata'=>array());
 			$tmp = CommonController::returnErro ( 1 );
 			$data ['data'] = array ();
 		} else {
-			$uid = $usrid;
+			$uid = $usrID;
 			// 假设服务器有1台，就对1取mod
 			$i = $uid % 1;
 			switch ($i) {
