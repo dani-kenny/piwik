@@ -92,6 +92,8 @@ class GetUserInfoController extends Controller {
 		$unit ['name'] = "user".$rel [0] ['Uid'];
 		$unit ['coins'] = 1000;
 		$unit ['cash'] = 10;
+		$unit['level']=$rel[0]['UserVip'];
+		$unit['exp']=$rel[0]['UserExp'];
 		// 物品
 		$unit ['items'] = GetUserInfoController::ItemMessage($rel [0] ['Uid']);
 		// 阵型
