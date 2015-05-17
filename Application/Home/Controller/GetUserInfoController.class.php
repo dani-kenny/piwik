@@ -28,8 +28,9 @@ class GetUserInfoController extends Controller {
 					$plat = 3;
 					break;
 			}
-			GetUserInfoController::isUser ( $uid, $plat );
-			$user = S ( "user_" . $uid . $plat );
+			$user=GetUserInfoController::isUser ( $uid, $plat );
+			//dump($test);
+			//$user = S ( "user_" . $uid . $plat );
 			$data['data']=$user;
 		}
         $arr=array_merge($tmp,$data);
@@ -39,13 +40,20 @@ class GetUserInfoController extends Controller {
 	}
 	// 判断是否存在此用户
 	private function IsUser($userid, $plat) {
-		$user = S ( "user_" . $userid . $plat );
-		if ($user == True) {
+		
+		$table=M('userinfo');
+		$map ['ClientId'] = $userid;
+		$map ['FromPlatformId'] = $plat;
+		$rel = $table->where ( $map )->select ();
+		if (!empty($rel)) {
 			// 读出$uid的所有信息返回给客户端
+			$user = S ( "user_" . $rel[0]['Uid'] );
 			return $user;
 		} else {
 			// 如果没有的话创建所有的初始常亮并返回客户端
-			GetUserInfoController::GetUserMessage ( $userid, $plat );
+			$user=GetUserInfoController::GetUserMessage ( $userid, $plat );
+			return $user;
+			
 		}
 	}
 	// 获取人物数据的信息
@@ -71,8 +79,10 @@ class GetUserInfoController extends Controller {
 			//初始化装备部分
 			
 			// 并写入cache
-			GetUserInfoController::WriteMem ( $userid, $plat );
+			$rel=GetUserInfoController::WriteMem ( $userid, $plat );
+			return $rel;
 		} else {
+			$rel=S ( "user_" . $rel[0]['Uid'] );
 			return $rel;
 		}
 	}
@@ -84,8 +94,6 @@ class GetUserInfoController extends Controller {
 		$rel = $table->where ( $map )->select ();
 		$unit ['id'] = $rel [0] ['Uid'];
 		$unit ['clientId'] = $userid;
-
-		// 以下先写死
 		$unit ['name'] =$rel [0] ['UserName'];
 		$unit ['coins'] = $rel[0]['UserMoney'];
 		$unit ['cash'] = $rel[0]['UserCash'];
@@ -97,9 +105,9 @@ class GetUserInfoController extends Controller {
 		$unit ['formation'] =GetUserInfoController::GetFormation($rel [0] ['Uid']);
 		// 关卡
 		$unit ['levels'] = array();
-		
 		// 人物所有信息写入cache
-		S ( "user_" . $userid . $plat, $unit );
+		S ( "user_" . $rel [0] ['Uid'], $unit );
+		return S ( "user_" . $rel [0] ['Uid']);
 	}
 	// 获取装备信息
 	private function ItemMessage($uid) {

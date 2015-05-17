@@ -17,7 +17,10 @@ class TSsanguoController extends Controller{
 		}
 	}
 	function test()
-	{   echo dirname(dirname(__FILE__)); 
+	{   
+		$table=S('user_100000005');
+		dump($table);
+		echo dirname(dirname(__FILE__)); 
 		$file=dirname(dirname(__FILE__)).'/Common/useritem.txt';
 		$str= file_get_contents($file);
 		dump(C('hero'));
@@ -64,6 +67,11 @@ class TSsanguoController extends Controller{
 		$arr=array_merge($tmp,$data);
 		$b = ConvertController::array_to_object ( $arr );
 		echo  json_encode ( $b ,JSON_NUMERIC_CHECK) ;
+	}
+	function  searchPvpUser()
+	{
+		$para=$this->getpara();
+		PvpUserController::seachContion($para['userID']);
 	}
 
 }

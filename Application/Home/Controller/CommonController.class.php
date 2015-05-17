@@ -14,6 +14,10 @@ class CommonController extends Controller{
 					//无uid的时候
 				case  1:
 					return array('erro'=>10001,'ts'=>time(),'updateData'=>(object)array());
+					break;
+				case 2:
+					return array('erro'=>10002,'ts'=>time(),'updateData'=>(object)array());
+					break;
 			}
 	
 	
