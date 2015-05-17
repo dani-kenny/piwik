@@ -1,7 +1,7 @@
 <?php
 
 namespace Home\Controller;
-
+use Home\Common;
 use Think\Controller;
 use Think\Controller\FristController;
 
@@ -32,9 +32,6 @@ class GetUserInfoController extends Controller {
 			$user = S ( "user_" . $uid . $plat );
 			$data['data']=$user;
 		}
-		
-		
-		
         $arr=array_merge($tmp,$data);
 	//	$b = ConvertController::array_to_object ( $arr );
 		//$this->ajaxReturn ( $b );
@@ -60,15 +57,17 @@ class GetUserInfoController extends Controller {
 		if (empty($rel)) {
 			//$table = M ( 'userinfo' );
 			//写入人物基本信息表‘ts_userinfo’
+			$data['Uid']=GetUserInfoController::createUid($plat);
 			$data['ClientId'] = $userid;
 			$data['FromPlatformId'] = $plat;
+			$data['UserName']="user".$data['Uid'];
+			$data['UserCash']=10;
+			$data['UserMoney']=1000;
 			$data['UserRegTS'] = time ();
 			$data['UserLoginTS']  = time ();			
-			$newid=$table->add ($data);
-			
-			//dump($newid);
+			$table->add ($data);			
 			//初始化英雄部分
-			GetUserInfoController::getHeroMessage($newid);
+			GetUserInfoController::getHeroMessage($data['Uid']);
 			//初始化装备部分
 			
 			// 并写入cache
@@ -85,13 +84,11 @@ class GetUserInfoController extends Controller {
 		$rel = $table->where ( $map )->select ();
 		$unit ['id'] = $rel [0] ['Uid'];
 		$unit ['clientId'] = $userid;
-		//$unit ['fromPlatFormId'] = $plat;
-		//$unit ['ts'] = $rel [0] ['UserRegTS'];
-		//$unit['updateData']=array();
+
 		// 以下先写死
-		$unit ['name'] = "user".$rel [0] ['Uid'];
-		$unit ['coins'] = 1000;
-		$unit ['cash'] = 10;
+		$unit ['name'] =$rel [0] ['UserName'];
+		$unit ['coins'] = $rel[0]['UserMoney'];
+		$unit ['cash'] = $rel[0]['UserCash'];
 		$unit['level']=$rel[0]['UserVip'];
 		$unit['exp']=$rel[0]['UserExp'];
 		// 物品
@@ -162,10 +159,10 @@ class GetUserInfoController extends Controller {
 	//获取初始化英雄
 	private function getHeroMessage($uid)
 	{
-		//读取初始化物品配置文件
-		$file=dirname(dirname(__FILE__)).'/Common/useritem.txt';
-		$str= file_get_contents($file);
-		$line = explode(";",$str);
+		
+		
+		
+		$line = C('hero');
 		for($i=0;$i<count($line);$i++)
 		{
 			$e=explode(",",$line[$i]);
@@ -194,6 +191,37 @@ class GetUserInfoController extends Controller {
 			$table->add($item);
 		}
 	  
+		
+	}
+	private function createUid($plat)
+	{
+		
+		$table=M('userinfo');
+		//$map['ClientId']=$uid;
+		$map['FromPlatformId']=$plat;
+		$rel=$table->where($map)->select();
+		
+		if($rel==null)
+		{
+			switch ($plat){
+				case 1:
+					return 100000000;
+					break;
+				case 2:
+					return 200000000;
+					break;
+				case 3:
+					return 300000000;
+					break;
+			}
+			
+			
+		}
+		else 
+		{
+			$rel=$table->where($map)->max('Uid');
+			return $rel+1;
+		}
 		
 	}
 	

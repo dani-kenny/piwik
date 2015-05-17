@@ -22,7 +22,7 @@ class CommonController extends Controller{
 	{
 		$table=M('userinfo');
 		$data['UserLogoutTS']=time();
-		 $map['ClientId']=$uid;
+		 $map['Uid']=$uid;
 		$table->where($map)->save($data);
 		
 	}

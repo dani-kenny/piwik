@@ -1,7 +1,8 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
 use Home\Common;
+use Think\Controller;
+
 class TSsanguoController extends Controller{
 	function getpara()
 	{   
@@ -19,7 +20,7 @@ class TSsanguoController extends Controller{
 	{   echo dirname(dirname(__FILE__)); 
 		$file=dirname(dirname(__FILE__)).'/Common/useritem.txt';
 		$str= file_get_contents($file);
-		echo $str;
+		dump(C('hero'));
 		
 		$keywords = explode(";",$str);
 		$e=explode(",",$keywords[0]);
