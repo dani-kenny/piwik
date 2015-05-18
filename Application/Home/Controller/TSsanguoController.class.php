@@ -22,7 +22,7 @@ class TSsanguoController extends Controller {
 		$para = $this->getpara ();
 		$test = GetUserInfoController::GetUserData ( $para ['userID'], $para ['channel'] );
 	}
-	function onlineReport() {
+	function reportOnline() {
 		$data ['data'] = array ();
 		$para = $this->getpara ();
 		$logout = CommonController::logoutTime ( $para ['userID'] );
