@@ -7,12 +7,8 @@ use Think\Controller;
 class InitController extends TSsanguoController {
 	// 初始化游戏接口
 	public function Init($usrID) {
-		// header('Content-type:text/json');
-		// $date=time();
+
 		if ($usrID == null) {
-			// $e=InitController::GateErro(10001);
-			// $erro=$e[0]['ErroID'];
-			// $arr=array('error'=>intval($erro),'data'=>array(),'ts'=>$date,'updatedata'=>array());
 			$tmp = CommonController::returnErro ( 1 );
 			$data ['data'] = array ();
 		} else {
@@ -39,10 +35,7 @@ class InitController extends TSsanguoController {
 					'url' => $url 
 			);
 			$tmp = CommonController::returnErro ( 0 );
-			
-			// $arr=array('error'=>$erro,'data'=>,'ts'=>$date,'updateData'=>array());
-			
-			// dump($data);
+
 		}
 		
 		$arr = array_merge ( $tmp, $data );

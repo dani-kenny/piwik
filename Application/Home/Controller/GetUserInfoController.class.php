@@ -1,6 +1,7 @@
 <?php
 
 namespace Home\Controller;
+
 use Home\Common;
 use Think\Controller;
 use Think\Controller\FristController;
@@ -12,11 +13,10 @@ class GetUserInfoController extends Controller {
 	public function GetUserData($userid, $channel) {
 		$uid = $userid;
 		if ($uid == null) {
-			$tmp=CommonController::returnErro(1);
-			$data['data']=array();
-		}
-		else{
-			$tmp=CommonController::returnErro(0);
+			$tmp = CommonController::returnErro ( 1 );
+			$data ['data'] = array ();
+		} else {
+			$tmp = CommonController::returnErro ( 0 );
 			switch ($channel) {
 				case "base" :
 					$plat = 1;
@@ -28,32 +28,30 @@ class GetUserInfoController extends Controller {
 					$plat = 3;
 					break;
 			}
-			$user=GetUserInfoController::isUser ( $uid, $plat );
-			//dump($test);
-			//$user = S ( "user_" . $uid . $plat );
-			$data['data']=$user;
+			$user = GetUserInfoController::isUser ( $uid, $plat );
+			
+			// $user = S ( "user_" . $uid . $plat );
+			$data ['data'] = $user;
 		}
-        $arr=array_merge($tmp,$data);
-	//	$b = ConvertController::array_to_object ( $arr );
-		//$this->ajaxReturn ( $b );
-		echo stripslashes ( json_encode ( $arr ,JSON_NUMERIC_CHECK) );
+		$arr = array_merge ( $tmp, $data );
+		$b = ConvertController::array_to_object ( $arr );
+		// $this->ajaxReturn ( $b );
+		echo stripslashes ( json_encode ( $arr, JSON_NUMERIC_CHECK ) );
 	}
 	// 判断是否存在此用户
 	private function IsUser($userid, $plat) {
-		
-		$table=M('userinfo');
+		$table = M ( 'userinfo' );
 		$map ['ClientId'] = $userid;
 		$map ['FromPlatformId'] = $plat;
 		$rel = $table->where ( $map )->select ();
-		if (!empty($rel)) {
+		if (! empty ( $rel )) {
 			// 读出$uid的所有信息返回给客户端
-			$user = S ( "user_" . $rel[0]['Uid'] );
+			$user = S ( "user_" . $rel [0] ['Uid'] );
 			return $user;
 		} else {
 			// 如果没有的话创建所有的初始常亮并返回客户端
-			$user=GetUserInfoController::GetUserMessage ( $userid, $plat );
+			$user = GetUserInfoController::GetUserMessage ( $userid, $plat );
 			return $user;
-			
 		}
 	}
 	// 获取人物数据的信息
@@ -62,27 +60,27 @@ class GetUserInfoController extends Controller {
 		$map ['ClientId'] = $userid;
 		$map ['FromPlatformId'] = $plat;
 		$rel = $table->where ( $map )->select ();
-		if (empty($rel)) {
-			//$table = M ( 'userinfo' );
-			//写入人物基本信息表‘ts_userinfo’
-			$data['Uid']=GetUserInfoController::createUid($plat);
-			$data['ClientId'] = $userid;
-			$data['FromPlatformId'] = $plat;
-			$data['UserName']="user".$data['Uid'];
-			$data['UserCash']=10;
-			$data['UserMoney']=1000;
-			$data['UserRegTS'] = time ();
-			$data['UserLoginTS']  = time ();			
-			$table->add ($data);			
-			//初始化英雄部分
-			GetUserInfoController::getHeroMessage($data['Uid']);
-			//初始化装备部分
+		if (empty ( $rel )) {
+			// $table = M ( 'userinfo' );
+			// 写入人物基本信息表‘ts_userinfo’
+			$data ['Uid'] = GetUserInfoController::createUid ( $plat );
+			$data ['ClientId'] = $userid;
+			$data ['FromPlatformId'] = $plat;
+			$data ['UserName'] = "user" . $data ['Uid'];
+			$data ['UserCash'] = 10;
+			$data ['UserMoney'] = 1000;
+			$data ['UserRegTS'] = time ();
+			$data ['UserLoginTS'] = time ();
+			$table->add ( $data );
+			// 初始化英雄部分
+			GetUserInfoController::getHeroMessage ( $data ['Uid'] );
+			// 初始化装备部分
 			
 			// 并写入cache
-			$rel=GetUserInfoController::WriteMem ( $userid, $plat );
+			$rel = GetUserInfoController::WriteMem ( $userid, $plat );
 			return $rel;
 		} else {
-			$rel=S ( "user_" . $rel[0]['Uid'] );
+			$rel = S ( "user_" . $rel [0] ['Uid'] );
 			return $rel;
 		}
 	}
@@ -94,143 +92,121 @@ class GetUserInfoController extends Controller {
 		$rel = $table->where ( $map )->select ();
 		$unit ['id'] = $rel [0] ['Uid'];
 		$unit ['clientId'] = $userid;
-		$unit ['name'] =$rel [0] ['UserName'];
-		$unit ['coins'] = $rel[0]['UserMoney'];
-		$unit ['cash'] = $rel[0]['UserCash'];
-		$unit['level']=$rel[0]['UserVip'];
-		$unit['exp']=$rel[0]['UserExp'];
+		$unit ['name'] = $rel [0] ['UserName'];
+		$unit ['coins'] = $rel [0] ['UserMoney'];
+		$unit ['cash'] = $rel [0] ['UserCash'];
+		$unit ['level'] = $rel [0] ['UserVip'];
+		$unit ['exp'] = $rel [0] ['UserExp'];
 		// 物品
-		$unit ['items'] = GetUserInfoController::ItemMessage($rel [0] ['Uid']);
+		$unit ['items'] = GetUserInfoController::ItemMessage ( $rel [0] ['Uid'] );
 		// 阵型
-		$unit ['formation'] =GetUserInfoController::GetFormation($rel [0] ['Uid']);
+		$unit ['formation'] = GetUserInfoController::GetFormation ( $rel [0] ['Uid'] );
 		// 关卡
-		$unit ['levels'] = array();
+		$unit ['levels'] = array ();
 		// 人物所有信息写入cache
 		S ( "user_" . $rel [0] ['Uid'], $unit );
-		return S ( "user_" . $rel [0] ['Uid']);
+		return S ( "user_" . $rel [0] ['Uid'] );
 	}
 	// 获取装备信息
 	private function ItemMessage($uid) {
-		$table=M('useritem');
-		$map['Uid']=$uid;
+		$table = M ( 'useritem' );
+		$map ['Uid'] = $uid;
 		
-		$rel=$table->where($map)->select();
-	
+		$rel = $table->where ( $map )->select ();
 		
-			for($i=0;$i<count($rel);$i++)
-			{
+		for($i = 0; $i < count ( $rel ); $i ++) {
+			
+			if ($rel [$i] ['ItemType'] == 1) {
 				
-				if($rel[$i]['ItemType']==1)
-		     {
-		     	
-				$tmp[]=array('id'=>$rel[$i]['ItemID'],'prototypeID'=>$rel[$i]['ItemPrototypeID'],'type'=>$rel[$i]['ItemType'],'count'=>1,'createTS'=>$rel[$i]['CreateTS'],'attack'=>$rel[$i]['HummanAttack']);
-		        //$b=array_push($b,$tmp);	
-		     }
+				$tmp [] = array (
+						'id' => $rel [$i] ['ItemID'],
+						'prototypeID' => $rel [$i] ['ItemPrototypeID'],
+						'type' => $rel [$i] ['ItemType'],
+						'count' => 1,
+						'createTS' => $rel [$i] ['CreateTS'],
+						'attack' => $rel [$i] ['HummanAttack'] 
+				);
+				// $b=array_push($b,$tmp);
+			}
 		}
-	
+		
 		return $tmp;
 	}
 	// 获取人物过关卡信息
 	private function GetMission($uid) {
-		return object(
-	
-		);
+		return object ()
+
+		;
 	}
-	//获取英雄阵型信息
-	private function GetFormation($uid)
-	{
-		$table=M('useritem');
-		$map['Uid']=$uid;
+	// 获取英雄阵型信息
+	private function GetFormation($uid) {
+		$table = M ( 'useritem' );
+		$map ['Uid'] = $uid;
 		
-		for($i=0;$i<=5;$i++)
-		{
-			$a=$i+1;
-           $map['IsFormation']=$a;
-           $rel=$table->where($map)->select();
-         
-           
-           if($rel==null)
-           {
-           	$formation['pos'.$a]=0;
-           }
-           else 
-           {
-           	$formation['prototypeID']=$rel[0]['FormationID'];
-           	$formation['pos'.$a]=$rel[0]['ItemID'];
-           }
-           
+		for($i = 0; $i <= 5; $i ++) {
+			$a = $i + 1;
+			$map ['IsFormation'] = $a;
+			$rel = $table->where ( $map )->select ();
 			
+			if ($rel == null) {
+				$formation ['pos' . $a] = 0;
+			} else {
+				$formation ['prototypeID'] = $rel [0] ['FormationID'];
+				$formation ['pos' . $a] = $rel [0] ['ItemID'];
+			}
 		}
 		return $formation;
-		
 	}
-	//获取初始化英雄
-	private function getHeroMessage($uid)
-	{
-		
-		
-		
-		$line = C('hero');
-		for($i=0;$i<count($line);$i++)
-		{
-			$e=explode(",",$line[$i]);
-			//写入物品表‘ts_useritem’
-			$table=M('useritem');
-			$item['Uid']=$uid;
-			$item['ItemPrototypeID']=$e[0];
-			if($e[1]==1)
-			{
-				$item['ItemType']=$e[1];
-				$item['IsFormation']=$e[3];
-				$item['FormationID']=$e[4];
-				$hero=M('hero');
-				$map['Index']=$item['ItemPrototypeID'];
-				$rel=$hero->where ( $map )->select ();
-				//物理攻击力
-				$item['HummanAttack']=$rel[0]['DC'];
-				//防御力
-				$item['HummanDef']=$rel[0]['AC'];
-				//..其中还有一些字段没有假如进去
+	// 获取初始化英雄
+	private function getHeroMessage($uid) {
+		$line = C ( 'hero' );
+		for($i = 0; $i < count ( $line ); $i ++) {
+			$e = explode ( ",", $line [$i] );
+			// 写入物品表‘ts_useritem’
+			$table = M ( 'useritem' );
+			$item ['Uid'] = $uid;
+			$item ['ItemPrototypeID'] = $e [0];
+			if ($e [1] == 1) {
+				$item ['ItemType'] = $e [1];
+				$item ['IsFormation'] = $e [3];
+				$item ['FormationID'] = $e [4];
+				$hero = M ( 'hero' );
+				$map ['Index'] = $item ['ItemPrototypeID'];
+				$rel = $hero->where ( $map )->select ();
+				// 物理攻击力
+				$item ['HummanAttack'] = $rel [0] ['DC'];
+				// 防御力
+				$item ['HummanDef'] = $rel [0] ['AC'];
+				// ..其中还有一些字段没有假如进去
 			}
 			
-			$item['ItemCount']=$e[2];
-			$item['CreateTS']=time();
+			$item ['ItemCount'] = $e [2];
+			$item ['CreateTS'] = time ();
 			
-			$table->add($item);
+			$table->add ( $item );
 		}
-	  
-		
 	}
-	private function createUid($plat)
-	{
+	private function createUid($plat) {
+		$table = M ( 'userinfo' );
+		// $map['ClientId']=$uid;
+		$map ['FromPlatformId'] = $plat;
+		$rel = $table->where ( $map )->select ();
 		
-		$table=M('userinfo');
-		//$map['ClientId']=$uid;
-		$map['FromPlatformId']=$plat;
-		$rel=$table->where($map)->select();
-		
-		if($rel==null)
-		{
-			switch ($plat){
-				case 1:
+		if ($rel == null) {
+			switch ($plat) {
+				case 1 :
 					return 100000000;
 					break;
-				case 2:
+				case 2 :
 					return 200000000;
 					break;
-				case 3:
+				case 3 :
 					return 300000000;
 					break;
 			}
-			
-			
+		} else {
+			$rel = $table->where ( $map )->max ( 'Uid' );
+			return $rel + 1;
 		}
-		else 
-		{
-			$rel=$table->where($map)->max('Uid');
-			return $rel+1;
-		}
-		
 	}
-	
 }
