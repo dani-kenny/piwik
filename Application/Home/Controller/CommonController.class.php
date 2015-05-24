@@ -45,7 +45,7 @@ class CommonController extends Controller{
 		$str=md5('para='."$para"."&ts="."$ts"."&code="."$code");
 		 dump($para);
 		 dump($ts);
-		// dump(md5($str));
+		 dump(md5($str));
 		 if($str==$hash)
 		 {
 		 	return 0;
