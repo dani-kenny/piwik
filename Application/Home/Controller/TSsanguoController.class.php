@@ -38,6 +38,6 @@ class TSsanguoController extends Controller {
 	function checkData()
 	{
 		$errocode=CommonController::checkClient();
-		
+		echo $errocode;
 	}
 }
