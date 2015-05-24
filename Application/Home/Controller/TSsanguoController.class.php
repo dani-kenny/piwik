@@ -31,7 +31,7 @@ class TSsanguoController extends Controller {
 		$b = ConvertController::array_to_object ( $arr );
 		echo json_encode ( $b, JSON_NUMERIC_CHECK );
 	}
-	function searchPvpUser() {
+	function pvpSearchUser() {
 		$para = $this->getpara ();
 		PvpUserController::seachContion ( $para ['userID'] );
 	}
