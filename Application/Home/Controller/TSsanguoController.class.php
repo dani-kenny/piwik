@@ -1,5 +1,5 @@
 <?php
-
+//
 namespace Home\Controller;
 
 use Home\Common;
@@ -34,5 +34,10 @@ class TSsanguoController extends Controller {
 	function searchPvpUser() {
 		$para = $this->getpara ();
 		PvpUserController::seachContion ( $para ['userID'] );
+	}
+	function checkData()
+	{
+		$errocode=CommonController::checkClient();
+		
 	}
 }

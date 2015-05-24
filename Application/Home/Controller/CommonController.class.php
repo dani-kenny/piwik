@@ -30,4 +30,30 @@ class CommonController extends Controller{
 		$table->where($map)->save($data);
 		
 	}
+	public function checkClient()
+	{
+		if (json_decode ( $_POST ['para'], true ) == null) {
+			 $para =   $_GET ['para'];
+			   $ts =   $_GET ['ts'];
+			   $hash=$_GET ['hash'];
+		} else {
+			 $para = $_POST['para'];
+			 $ts = $_POST['ts'];
+			 $hash=$_POST['hash'];
+		}
+		$code='7InVuB0Q';
+		$str=md5('para='."$para"."&ts="."$ts"."&code="."$code");
+		 dump($para);
+		 dump($ts);
+		// dump(md5($str));
+		 if($str==$hash)
+		 {
+		 	return 0;
+		 }
+		 else 
+		 {
+		 	return 1;
+		 }
+		 	
+	}
 }
