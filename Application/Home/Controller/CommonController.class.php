@@ -9,14 +9,14 @@ class CommonController extends Controller{
 			switch ($codeErroId){
 				//数据没有问题时
 				case 0:
-					return array('erro'=>0,'ts'=>time(),'updateData'=>(object)array());
+					return array('error'=>0,'ts'=>time(),'updateData'=>(object)array());
 					break;
 					//无uid的时候
 				case  1:
-					return array('erro'=>10001,'ts'=>time(),'updateData'=>(object)array());
+					return array('error'=>10001,'ts'=>time(),'updateData'=>(object)array());
 					break;
 				case 2:
-					return array('erro'=>10002,'ts'=>time(),'updateData'=>(object)array());
+					return array('error'=>10002,'ts'=>time(),'updateData'=>(object)array());
 					break;
 			}
 	
@@ -42,9 +42,10 @@ class CommonController extends Controller{
 			 $hash=$_POST['hash'];
 		}
 		$code='7InVuB0Q';
+		$str1='para='."$para"."&ts="."$ts"."&code="."$code";
 		$str=md5('para='."$para"."&ts="."$ts"."&code="."$code");
 		 dump($para);
-		 dump($ts);
+		 dump($str1);
 		 dump(md5($str));
 		 if($str==$hash)
 		 {
