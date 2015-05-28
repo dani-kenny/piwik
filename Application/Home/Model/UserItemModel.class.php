@@ -17,7 +17,7 @@ class UserItemModel extends Model
 		//dump($rel);
 		if(!empty ( $rel )){
 			for($i = 0; $i < count ( $rel ); $i ++) {
-			
+					
 				$user = S ( 'user_' . $rel [$i] ['Uid'] );
 				unset ( $user ['coins'], $user ['cash'], $user ['clientId'], $user ['levels'] );
 				for($j = 0; $j < count ( $user ['items'] ); $j ++) {
