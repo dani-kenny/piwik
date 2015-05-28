@@ -56,7 +56,7 @@ class UserFightController extends Controller {
 			}
 			$usermess=D('UserItem');
 			$sinfo=$usermess->getUserhero($uid);
-			$tarin=$usermess->getUserhero($tarid);
+			$tarinfo=$usermess->getUserhero($tarid);
 			$endlog=end($log);
 			$vuid=$endlog['auid'];
 			$data['data']=array('aud'=>$sinfo,'tud'=>$tarinfo,'vuid'=>$vuid,'log'=>$log);
