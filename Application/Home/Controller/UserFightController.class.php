@@ -71,7 +71,6 @@ class UserFightController extends Controller {
 		//echo $tarid;
 		$map['uid']=array('eq',$tarid);
 		$rel=$view->where($map['uid'])->find();
-		dump($rel);
 		if((time()-$rel['logoutTS'])<180)		
 		{
 			return 1;
