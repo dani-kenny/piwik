@@ -13,6 +13,7 @@ class PvpUserController extends TSsanguoController {
 				'neq',
 				$usrmess ['id'] 
 		);
+		$map['UserLogoutTS']=array('lt',time()-180);
 		$rel = $table->where ( $map )->limit ( '3' )->select ();
 		if (empty ( $rel )) {
 			$tmp = CommonController::returnErro ( 2 );
