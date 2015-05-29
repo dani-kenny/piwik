@@ -29,4 +29,31 @@ class UserItemModel extends Model
 		}
 		return $user;
 	}
+	function searchProtect($uid)
+	{
+		$table=M('userinfo');
+		$data['UserSearchTS']=time();
+		$map['Uid']=$uid;
+		$table->where($map)->save($data);
+	}
+	function fightProtect($uid)
+	{
+		$table=M('userinfo');
+		$data['UserFightTS']=time();
+		$map['Uid']=$uid;
+		$table->where($map)->save($data);
+	}
+	function isUserOnline($tarid){
+		$view=M('userinfo');
+		$map['Uid']=$tarid;
+		$rel=$view->where($map)->select();
+		if((time()-$rel['logoutTS'])<180)
+		{
+			return 1;
+		}
+// 		elseif((time()-$rel['fightTs'])<0)
+// 		{
+// 			return 2;
+// 		}
+	}
 }

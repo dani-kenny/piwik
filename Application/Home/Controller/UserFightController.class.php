@@ -8,11 +8,19 @@ class UserFightController extends Controller {
 	// 生成战斗录像
 	// 用户队列$userA,$userB
 	 function FightRecord($uid,$tarid){
-		if(UserFightController::isUserOnline($tarid)==1)
+	 	$usermess=D('UserItem');
+	 	
+	 	
+		if($usermess->isUserOnline($tarid)==1)
 		{
 			$tmp= CommonController::returnErro(3);
 			$data ['data'] = array ();
 		}
+// 		elseif($usermess->isUserOnline($tarid)==2)
+// 		{
+// 			$tmp= CommonController::returnErro(4);
+// 			$data ['data'] = array ();
+// 		}
 		else{
 			$tmp= CommonController::returnErro(0);
 			//$sinfo=S('user_'.$uid);
@@ -54,9 +62,10 @@ class UserFightController extends Controller {
 					$log[] = $n;
 				}
 			}
-			$usermess=D('UserItem');
+			
 			$sinfo=$usermess->getUserhero($uid);
 			$tarinfo=$usermess->getUserhero($tarid);
+			$usermess->fightProtect($tarid);
 			$endlog=end($log);
 			$vuid=$endlog['auid'];
 			$data['data']=array('aud'=>$sinfo,'tud'=>$tarinfo,'vuid'=>$vuid,'log'=>$log);
@@ -66,16 +75,7 @@ class UserFightController extends Controller {
 		echo json_encode ( $arr, JSON_NUMERIC_CHECK );
 		
 	}
-	function isUserOnline($tarid){
-		$view=D('UserItemView');
-		//echo $tarid;
-		$map['uid']=array('eq',$tarid);
-		$rel=$view->where($map['uid'])->find();
-		if((time()-$rel['logoutTS'])<180)		
-		{
-			return 1;
-		}
-	}
+
 	// 获取用户的战斗参数值
 	 function FightData($uid) {
 		// 获取用户战斗阵列

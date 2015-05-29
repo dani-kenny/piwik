@@ -21,6 +21,9 @@ class CommonController extends Controller{
 				case 3:
 						return array('error'=>10003,'ts'=>time(),'updateData'=>(object)array());
 						break;
+				case 4:
+							return array('error'=>10004,'ts'=>time(),'updateData'=>(object)array());
+							break;
 			}
 	
 	
