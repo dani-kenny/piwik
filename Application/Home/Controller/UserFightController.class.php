@@ -102,8 +102,8 @@ class UserFightController extends Controller {
 				$tempB=$tempB-$userAdmg;
 				$replay[]=array(
 						'auid'=>$userA['uid'],
-						'aid'=>$userA['heroid'],			
-						'tid'=>$userB['heroid'],
+						'aid'=>$userA['itemid'],			
+						'tid'=>$userB['itemid'],
 						'dmg'=>$userA['ac']-$userB['dc'],
 						'crit'=>0,
 						'ahp'=>$tempA,
@@ -115,8 +115,8 @@ class UserFightController extends Controller {
 			{
 				$replay[]=array(
 						'auid'=>$userA['uid'],
-						'aid'=>$userA['heroid'],
-						'tid'=>$userB['heroid'],
+						'aid'=>$userA['itemid'],
+						'tid'=>$userB['itemid'],
 						'dmg'=>$userA['ac']-$userB['dc'],
 						'crit'=>0,
 						'ahp'=>$tempA,
@@ -129,8 +129,8 @@ class UserFightController extends Controller {
 				$tempA=$tempA-$userBdmg;
 				$replay[]=array(
 						'auid'=>$userB['uid'],
-						'aid'=>$userB['heroid'],
-						'tid'=>$userA['heroid'],
+						'aid'=>$userB['itemid'],
+						'tid'=>$userA['itemid'],
 						'dmg'=>$userB['ac']-$userA['dc'],
 						'crit'=>0,
 						'ahp'=>$tempA,
@@ -142,8 +142,8 @@ class UserFightController extends Controller {
 				//dump($tempB);
 				$replay[]=array(
 						'auid'=>$userB['uid'],
-						'aid'=>$userB['heroid'],
-						'tid'=>$userA['heroid'],
+						'aid'=>$userB['itemid'],
+						'tid'=>$userA['itemid'],
 						'dmg'=>$userB['ac']-$userA['dc'],
 						'crit'=>0,
 						'ahp'=>0,

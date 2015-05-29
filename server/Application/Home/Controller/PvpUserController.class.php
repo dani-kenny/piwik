@@ -27,9 +27,10 @@ class PvpUserController extends TSsanguoController {
 						unset ( $user ['items'] [$j] ['createTS'] );
 					}
 				}
-				$target [] = $user;
+				$all [] = $user;
 			}
-			$data ['data'] = $target;
+			
+			$data ['data'] = array('targets'=>$all);
 			$tmp = CommonController::returnErro ( 0 );
 		}
 		$arr = array_merge ( $tmp, $data );

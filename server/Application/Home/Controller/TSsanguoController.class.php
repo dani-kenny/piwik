@@ -31,8 +31,26 @@ class TSsanguoController extends Controller {
 		$b = ConvertController::array_to_object ( $arr );
 		echo json_encode ( $b, JSON_NUMERIC_CHECK );
 	}
-	function searchPvpUser() {
+	function pvpSearchUser() {
 		$para = $this->getpara ();
 		PvpUserController::seachContion ( $para ['userID'] );
+	}
+	function pvpFight(){
+		$para = $this->getpara ();
+		UserFightController::FightRecord( $para ['userID'],$para['targetUserID']);
+	}
+	function checkData()
+	{
+		$errocode=CommonController::checkClient();
+		echo $errocode;
+	}
+	function test()
+	{
+		$view=D('UserItemView');
+		$map['uid']='100000000';
+		$list=$view->where($map)->select();
+		dump($list);
+		$info=S('user_'.'100000000');
+		dump($info);
 	}
 }
