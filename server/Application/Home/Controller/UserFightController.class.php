@@ -8,25 +8,20 @@ class UserFightController extends Controller {
 	// 生成战斗录像
 	// 用户队列$userA,$userB
 	 function FightRecord($uid,$tarid){
-	 	$usermess=D('UserItem');
-	 	
+	 	$usermess=D('User');
+	 	$fightdata=D('Hero');
 	 	
 		if($usermess->isUserOnline($tarid)==1)
 		{
 			$tmp= CommonController::returnErro(3);
 			$data ['data'] = array ();
 		}
-// 		elseif($usermess->isUserOnline($tarid)==2)
-// 		{
-// 			$tmp= CommonController::returnErro(4);
-// 			$data ['data'] = array ();
-// 		}
+
 		else{
 			$tmp= CommonController::returnErro(0);
-			//$sinfo=S('user_'.$uid);
-			//$tarinfo=S('user_'.$tarid);
-			$user1=UserFightController::FightData($uid);
-			$user2=UserFightController::FightData($tarid);
+
+			$user1=$fightdata->FightData($uid);
+			$user2=$fightdata->FightData($tarid);
 			$a = array ();
 			$b=current($user1);
 			$c=current($user2);
@@ -77,16 +72,7 @@ class UserFightController extends Controller {
 	}
 
 	// 获取用户的战斗参数值
-	 function FightData($uid) {
-		// 获取用户战斗阵列
-		$view=D('UserItemView');
-		$map['type']=1;
-		$map['FormationID']=array('neq',0);
-		$map['uid']=$uid;
-		// 获取用户基础属性
-		$rel=$view->where($map)->order('formation asc')->select();
-		return $rel;
-	}
+
 	function Fight($userA,$userB)
 	{
 		$userAdmg=$userA['ac']-$userB['dc'];

@@ -130,12 +130,37 @@ class UserModel extends Model{
 			$data=D('Item');
 			$unit ['items'] = $data->ItemMessage ( $rel [0] ['Uid'] );
 			// 阵型
-			$unit ['formation'] =$data->GetFormation ( $rel [0] ['Uid'] );
+			$unit ['formation'] =$this->GetFormation ( $rel [0] ['Uid'] );
 			// 关卡
 			$unit ['levels'] = array ();
 			// 人物所有信息写入cache
 			S ( "user_" . $rel [0] ['Uid'], $unit );
 			return S ( "user_" . $rel [0] ['Uid'] );
+		}
+		// 获取英雄阵型信息
+		function GetFormation($uid) {
+			$table = M ( 'useritem' );
+			$map ['Uid'] = $uid;
+		
+			for($i = 0; $i <= 5; $i ++) {
+				$a = $i + 1;
+				$map ['IsFormation'] = $a;
+				$rel = $table->where ( $map )->select ();
+		
+				if ($rel == null) {
+					$formation ['pos' . $a] = 0;
+				} else {
+					$formation ['prototypeID'] = $rel [0] ['FormationID'];
+					$formation ['pos' . $a] = $rel [0] ['ItemID'];
+				}
+			}
+			return $formation;
+		}
+		// 获取人物过关卡信息
+		function GetMission($uid) {
+			return object ()
+		
+			;
 		}
 	
 }

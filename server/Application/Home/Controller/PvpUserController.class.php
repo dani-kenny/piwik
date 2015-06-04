@@ -20,7 +20,7 @@ class PvpUserController extends TSsanguoController {
 			$tmp = CommonController::returnErro ( 2 );
 			$data ['data'] = array ();
 		} else {
-			   $table=D('UserItem');
+			   $table=D('User');
 			for($i = 0; $i < count ( $rel ); $i ++) {
 				$table->searchProtect($rel[$i]['Uid']);
 				$user = S ( 'user_' . $rel [$i] ['Uid'] );
