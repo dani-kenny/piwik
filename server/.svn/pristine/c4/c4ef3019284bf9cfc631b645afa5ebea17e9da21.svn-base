@@ -46,23 +46,11 @@ class TSsanguoController extends Controller {
 	}
 	function test()
 	{
-        $file=APP_PATH.'/HOME/Conf/errors.csv';
-        $read=$this->read_csv($file);
-        dump($read);
-        
-	}
-	function read_csv($filename=null) {
-		if(!$filename){
-			return false;
-		}
-		$handle=fopen($filename,'r');
-		if(!$handle){
-			return false;
-		}
-
-		while($data=fgetcsv($handle,1000,",")){			
-			$tmp[]=$data;
-		}
-		return $tmp;
+		$view=D('UserItemView');
+		$map['uid']='100000000';
+		$list=$view->where($map)->select();
+		dump($list);
+		$info=S('user_'.'100000000');
+		dump($info);
 	}
 }

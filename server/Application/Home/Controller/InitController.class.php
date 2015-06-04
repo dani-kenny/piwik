@@ -13,7 +13,6 @@ class InitController extends TSsanguoController {
 			$data ['data'] = array ();
 		} else {
 			$uid = $usrID;
-			// 假设服务器有1台，就对1取mod
 			$i = $uid % 1;
 			switch ($i) {
 				case 0 :

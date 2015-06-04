@@ -42,7 +42,7 @@ function fleshVerify(){
 </td></tr>
 <tr><td height="3" colspan="2" class="bottomTd" ></td></tr>
 </table>
-<div class="result">测试账号(用户名/密码) 管理员：admin/admin 领导：leader/leader 员工：member/member </div>
+<!--  <div class="result">测试账号(用户名/密码) 管理员：admin/admin 领导：leader/leader 员工：member/member </div>-->
 </div>
 </form>
 </body>
