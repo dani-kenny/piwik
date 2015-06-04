@@ -44,10 +44,6 @@ class InitController extends TSsanguoController {
 		
 		echo stripslashes ( json_encode ( $b ,JSON_NUMERIC_CHECK) );
 	}
-	// 错误代码
-	public function GateErro($erro) {
-		$use = M ( 'erro' );
-		$map ['ErroID'] = $erro;
-		return $use->where ( $map )->select ();
-	}
+
+	
 }

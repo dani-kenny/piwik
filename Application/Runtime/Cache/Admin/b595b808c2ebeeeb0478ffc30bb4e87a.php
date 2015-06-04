@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>『ThinkPHP管理平台』By ThinkPHP <?php echo (THINK_VERSION); ?></title>
 <frameset frameborder=0 framespacing=0 border=0 rows="50, *,32">
-  <frame src="/Admin/Public/top" name="top" frameborder=0 noresize scrolling='no' marginwidth=0 marginheight=0>
+  <frame src="/Public/top" name="top" frameborder=0 noresize scrolling='no' marginwidth=0 marginheight=0>
   <frameset frameborder=0  framespacing=0 border=0 cols="200,7, *" id="frame-body">
-    <frame src="/Admin/Public/menu" frameborder=0 id="menu-frame" name="menu">
-    <frame src="/Admin/Public/drag" id="drag-frame" name="drag-frame" frameborder="no" scrolling="no">
-    <frame src="/Admin/Public/main" frameborder=0 id="main-frame" name="main">
+    <frame src="/Public/menu" frameborder=0 id="menu-frame" name="menu">
+    <frame src="/Public/drag" id="drag-frame" name="drag-frame" frameborder="no" scrolling="no">
+    <frame src="/Public/main" frameborder=0 id="main-frame" name="main">
   </frameset>
-  <frame src="/Admin/Public/footer" name="footer" frameborder=0 noresize scrolling='no' marginwidth=0 marginheight=0>
+  <frame src="/Public/footer" name="footer" frameborder=0 noresize scrolling='no' marginwidth=0 marginheight=0>
 </frameset>
 <noframes></noframes>
 </html>

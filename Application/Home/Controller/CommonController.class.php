@@ -28,14 +28,7 @@ class CommonController extends Controller{
 	
 	
 	}
-	public function logoutTime($uid)
-	{
-		$table=M('userinfo');
-		$data['UserLogoutTS']=time();
-		 $map['Uid']=$uid;
-		$table->where($map)->save($data);
-		
-	}
+
 	public function checkClient()
 	{
 		if (json_decode ( $_POST ['para'], true ) == null) {

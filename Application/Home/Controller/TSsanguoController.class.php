@@ -23,9 +23,10 @@ class TSsanguoController extends Controller {
 		$test = GetUserInfoController::GetUserData ( $para ['userID'], $para ['channel'] );
 	}
 	function reportOnline() {
+		$comm=D('User');
 		$data ['data'] = array ();
 		$para = $this->getpara ();
-		$logout = CommonController::logoutTime ( $para ['userID'] );
+		$logout = $comm->logoutTime ( $para ['userID'] );
 		$tmp = CommonController::returnErro ( 0 );
 		$arr = array_merge ( $tmp, $data );
 		$b = ConvertController::array_to_object ( $arr );
