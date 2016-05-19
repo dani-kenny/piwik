@@ -13,13 +13,13 @@
 	<!-- 功能导航区 -->
 	<div class="topmenu">
 <ul>
-<li><span><a href="#" onClick="sethighlight(0); parent.menu.location='/Admin/Public/menu/title/后台首页';parent.main.location='/Admin/Public/main/';return false;">后台首页</a></span></li>
-<?php if(is_array($nodeGroupList)): $i = 0; $__LIST__ = $nodeGroupList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$tag): $mod = ($i % 2 );++$i;?><li><span><a href="#" onClick="sethighlight(<?php echo ($i); ?>); parent.menu.location='/Admin/Public/menu/tag/<?php echo ($key); ?>/title/<?php echo ($tag); ?>';return false;"><?php echo ($tag); ?></a></span></li><?php endforeach; endif; else: echo "" ;endif; ?>
+<li><span><a href="#" onClick="sethighlight(0); parent.menu.location='/Public/menu/title/后台首页';parent.main.location='/Public/main/';return false;">后台首页</a></span></li>
+<?php if(is_array($nodeGroupList)): $i = 0; $__LIST__ = $nodeGroupList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$tag): $mod = ($i % 2 );++$i;?><li><span><a href="#" onClick="sethighlight(<?php echo ($i); ?>); parent.menu.location='/Public/menu/tag/<?php echo ($key); ?>/title/<?php echo ($tag); ?>';return false;"><?php echo ($tag); ?></a></span></li><?php endforeach; endif; else: echo "" ;endif; ?>
 </ul>
 </div>
 	<div class="nav">
 	欢迎你！<?php echo (session('loginUserName')); ?>
-	<a href="/Admin/Public/password/"><img src="/Public/images/checked_out.png" width="16" height="16" border="0" alt="" align="absmiddle"> 修改密码</a> <a href="/Admin/Public/profile/"><img SRC="/Public/images/write.gif" WIDTH="17" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> 修改资料</a> <a href="/Admin/Public/logout/" target="_top"><img SRC="/Public/images/error.gif" WIDTH="20" HEIGHT="20" BORDER="0" ALT="" align="absmiddle"> 退 出</a></div>
+	<a href="/Public/password/"><img src="/Public/images/checked_out.png" width="16" height="16" border="0" alt="" align="absmiddle"> 修改密码</a> <a href="/Public/profile/"><img SRC="/Public/images/write.gif" WIDTH="17" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> 修改资料</a> <a href="/Public/logout/" target="_top"><img SRC="/Public/images/error.gif" WIDTH="20" HEIGHT="20" BORDER="0" ALT="" align="absmiddle"> 退 出</a></div>
 </div>
 <script>
 function sethighlight(n) {

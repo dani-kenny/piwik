@@ -16,19 +16,19 @@ function keydown(e){
 	var e = e || event;
 	if (e.keyCode==13)
 	{
-	ThinkAjax.sendForm('form1','/Admin/Public/checkLogin/',loginHandle,'result');
+	ThinkAjax.sendForm('form1','/Public/checkLogin/',loginHandle,'result');
 	}
 }
 function fleshVerify(){ 
 	//重载验证码
 	var timenow = new Date().getTime();
-	$('verifyImg').src= '/Admin/Public/verify/'+timenow;
+	$('verifyImg').src= '/Public/verify/'+timenow;
 }
 
 </script>
 </head>
 <body onLoad="document.login.account.focus()" >
-<form method='post' name="login" id="form1" ACTION="/Admin/Public/checkLogin">
+<form method='post' name="login" id="form1" ACTION="/Public/checkLogin">
 <div class="tCenter hMargin">
 <table id="checkList" class="login shadow" cellpadding=0 cellspacing=0 >
 <tr><td height="3" colspan="2" class="topTd" ></td></tr>
@@ -36,7 +36,7 @@ function fleshVerify(){
 <tr><td height="3" colspan="2" class="topTd" ></td></tr>
 <tr class="row" ><td class="tRight" width="25%">帐 号：</td><td><input type="text" class="medium bLeftRequire" check="Require" warning="请输入帐号" name="account"></td></tr>
 <tr class="row" ><td class="tRight">密 码：</td><td><input type="password" class="medium bLeftRequire" check="Require" warning="请输入密码" name="password"></td></tr>
-<tr class="row" ><td class="tRight">验证码：</td><td><input type="text" onKeyDown="keydown(event)" class="small bLeftRequire" check="Require" warning="请输入验证码" name="verify"> <img id="verifyImg" SRC="/Admin/Public/verify/" onClick="fleshVerify()" BORDER="0" ALT="点击刷新验证码" style="cursor:pointer" align="absmiddle"></td></tr>
+<tr class="row" ><td class="tRight">验证码：</td><td><input type="text" onKeyDown="keydown(event)" class="small bLeftRequire" check="Require" warning="请输入验证码" name="verify"> <img id="verifyImg" SRC="/Public/verify/" onClick="fleshVerify()" BORDER="0" ALT="点击刷新验证码" style="cursor:pointer" align="absmiddle"></td></tr>
 <tr class="row" ><td class="tCenter" align="justify" colspan="2">
 <input type="submit" value="登 录" class="submit medium hMargin">
 </td></tr>

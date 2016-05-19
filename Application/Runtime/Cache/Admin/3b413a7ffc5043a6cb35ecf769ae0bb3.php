@@ -16,7 +16,7 @@
 <script language="JavaScript">
 <!--
 //指定当前组模块URL地址 
-var URL = '/Admin/Node';
+var URL = '/Node';
 var APP	 =	 '';
 var PUBLIC = '/Public';
 //-->
@@ -28,7 +28,7 @@ var PUBLIC = '/Public';
 <div id="main" class="main" >
 <!-- 主体内容  -->
 <div class="content" >
-<div class="title"><?php if(isset($nodeName)): ?>[<?php echo ($nodeName); ?>]<?php endif; if(($level) == "1"): ?>应用<?php endif; if(($level) == "2"): ?>模块<?php endif; if(($level) == "3"): ?>操作<?php endif; ?>列表 <span style="font-weight:normal">[ 分组:&nbsp;<?php if(is_array($groupList)): $i = 0; $__LIST__ = $groupList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$tag): $mod = ($i % 2 );++$i;?><a href="/Admin/Node/index/group_id/<?php echo ($key); ?>"><?php echo ($tag); ?></a>&nbsp;<?php endforeach; endif; else: echo "" ;endif; ?><a href="/Admin/Node">所有</a> ] </span></div>
+<div class="title"><?php if(isset($nodeName)): ?>[<?php echo ($nodeName); ?>]<?php endif; if(($level) == "1"): ?>应用<?php endif; if(($level) == "2"): ?>模块<?php endif; if(($level) == "3"): ?>操作<?php endif; ?>列表 <span style="font-weight:normal">[ 分组:&nbsp;<?php if(is_array($groupList)): $i = 0; $__LIST__ = $groupList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$tag): $mod = ($i % 2 );++$i;?><a href="/Node/index/group_id/<?php echo ($key); ?>"><?php echo ($tag); ?></a>&nbsp;<?php endforeach; endif; else: echo "" ;endif; ?><a href="/Node">所有</a> ] </span></div>
 <!--  功能操作区域  -->
 <div class="operate" >
 <div class="impBtn hMargin fLeft shadow" ><input type="button" id="" name="add" value="新增" onclick="add()" class="add imgButton"></div>
@@ -37,7 +37,7 @@ var PUBLIC = '/Public';
 <div class="impBtn hMargin fLeft shadow" ><input type="button" id="" name="sort" value="排序" onclick="sort()" class="sort imgButton"></div>
 <!-- 查询区域 -->
 <div class="fRig">
-<form method='post' action="/Admin/Node">
+<form method='post' action="/Node">
 <div class="fLeft"><span id="key"><input type="text" name="name" title="名称查询" class="medium" ></span></div>
 <div class="impBtn hMargin fLeft shadow" ><input type="submit" id="" name="search" value="查询" onclick="" class="search imgButton"></div>
 </div>

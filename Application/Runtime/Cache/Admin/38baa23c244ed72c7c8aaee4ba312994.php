@@ -15,7 +15,7 @@
 <script language="JavaScript">
 <!--
 //指定当前组模块URL地址 
-var URL = '/Admin/Test';
+var URL = '/Test';
 var APP	 =	 '';
 var PUBLIC = '/Public';
 //-->

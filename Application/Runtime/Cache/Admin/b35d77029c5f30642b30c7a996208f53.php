@@ -16,7 +16,7 @@
 <script language="JavaScript">
 <!--
 //指定当前组模块URL地址 
-var URL = '/Admin/Role';
+var URL = '/Role';
 var APP	 =	 '';
 var PUBLIC = '/Public';
 //-->
@@ -31,7 +31,7 @@ var PUBLIC = '/Public';
 <script language="JavaScript">
 
 function getGroupUser(groupId){
-location.href='/Admin/Role/userList/id/'+groupId;
+location.href='/Role/userList/id/'+groupId;
 }
 //-->
 </script>
@@ -45,7 +45,7 @@ location.href='/Admin/Role/userList/id/'+groupId;
 <div class="impBtn hMargin fLeft shadow" ><input type="button" id="" name="delete" value="删除" onclick="del()" class="delete imgButton"></div>
 <!-- 查询区域 -->
 <div class="fRig">
-<form method=post action="/Admin/Role">
+<form method=post action="/Role">
 <div class="fLeft"><span id="key"><input type="text" title="组名查询" name="name" class="medium" ></span></div>
 <div class="impBtn hMargin fLeft shadow" ><input type="submit" id="" name="search" value="查询" onclick="" class="search imgButton"></div>
 <div class="impBtn hMargin fLeft shadow" ><input type="button" id="showText" name="adv" value="高级" onclick="showHideSearch()" class="adv imgButton"></div>

@@ -16,7 +16,7 @@
 <script language="JavaScript">
 <!--
 //指定当前组模块URL地址 
-var URL = '/Admin/Form';
+var URL = '/Form';
 var APP	 =	 '';
 var PUBLIC = '/Public';
 //-->
@@ -39,7 +39,7 @@ var PUBLIC = '/Public';
 <div class="impBtn hMargin fLeft shadow" ><input type="button" id="" name="delete" value="删除" onclick="foreverdel()" class="delete imgButton"></div>
 <!-- 查询区域 -->
 <div class="fRig">
-<form method='post' action="/Admin/Form">
+<form method='post' action="/Form">
 <div class="fLeft"><span id="key"><input type="text" name="name" title="组名" class="medium" ></span></div>
 <div class="impBtn hMargin fLeft shadow" ><input type="submit" id="" name="search" value="查询" onclick="" class="search imgButton"></div>
 </div>

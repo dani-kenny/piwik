@@ -13,7 +13,7 @@
 <script language="JavaScript">
 <!--
 //指定当前组模块URL地址 
-var URL = '/Admin/Node';
+var URL = '/Node';
 var APP	 =	 '';
 var PUBLIC = '/Public';
 //-->
@@ -23,8 +23,8 @@ var PUBLIC = '/Public';
 <body>
 <div id="main" class="main" >
 <div class="content">
-<div class="title">编辑<?php if(($vo["level"]) == "1"): ?>应用<?php endif; if(($vo["level"]) == "2"): ?>模块<?php endif; if(($vo["level"]) == "3"): ?>操作<?php endif; ?> [ <a href="/Admin/Node">返回列表</a> ]</div>
-<form method='post'  id="form1" action="/Admin/Node/update/">
+<div class="title">编辑<?php if(($vo["level"]) == "1"): ?>应用<?php endif; if(($vo["level"]) == "2"): ?>模块<?php endif; if(($vo["level"]) == "3"): ?>操作<?php endif; ?> [ <a href="/Node">返回列表</a> ]</div>
+<form method='post'  id="form1" action="/Node/update/">
 <table cellpadding=3 cellspacing=3 >
 <tr>
 	<td class="tRight" ><?php if(($vo["level"]) == "1"): ?>应用<?php endif; if(($vo["level"]) == "2"): ?>模块<?php endif; if(($vo["level"]) == "3"): ?>操作<?php endif; ?>名：</td>

@@ -20,7 +20,7 @@
                     <th class="tCenter space"><img SRC="/Public/images/home.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="" align="absmiddle"> <?php if(isset($_GET['title'])): echo ($_GET['title']); endif; if(!isset($_GET['title'])): ?>后台首页<?php endif; ?> </th>
                 </tr>
                 <?php if(is_array($menu)): $i = 0; $__LIST__ = $menu;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$item): $mod = ($i % 2 );++$i; if(($item['group_id']) == $menuTag): if((strtolower($item['name'])) != "public"): if((strtolower($item['name'])) != "index"): if(($item['access']) == "1"): ?><tr class="row " >
-                                        <td><div style="margin:0px 5px"><img SRC="../Public/images/comment.gif" WIDTH="9" HEIGHT="9" BORDER="0" align="absmiddle" ALT=""> <a href="/Admin/<?php echo ($item['name']); ?>/index/" id="<?php echo ($key); ?>"><?php echo ($item['title']); ?></a></div></td>
+                                        <td><div style="margin:0px 5px"><img SRC="../Public/images/comment.gif" WIDTH="9" HEIGHT="9" BORDER="0" align="absmiddle" ALT=""> <a href="/<?php echo ($item['name']); ?>/index/" id="<?php echo ($key); ?>"><?php echo ($item['title']); ?></a></div></td>
                                     </tr><?php endif; endif; endif; endif; endforeach; endif; else: echo "" ;endif; ?>
                 <tr>
                     <td height='3' colspan=1 class="bottomTd"></td>
